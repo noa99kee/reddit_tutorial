@@ -10,6 +10,8 @@ import 'package:reddit_tutorial/features/home/drawers/profile_drawer.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
 import 'package:routemaster/routemaster.dart';
 
+final pageProvider = StateProvider((ref) => 0);
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -18,8 +20,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _page = 0;
-
   @override
   void initState() {
     super.initState();
@@ -34,9 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
+    ref.read(pageProvider.notifier).state = page;
   }
 
   @override
@@ -66,7 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           IconButton(
             onPressed: () {
-              Routemaster.of(context).push('/add-post');
+              ref.read(pageProvider.notifier).state = 1;
             },
             icon: const Icon(Icons.add),
           ),
@@ -80,7 +78,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           }),
         ],
       ),
-      body: Constants.tabWidgets[_page],
+      body: Constants.tabWidgets[ref.watch(pageProvider)],
       drawer: const CommunityListDrawer(),
       endDrawer: isGuest ? null : const ProfileDrawer(),
       bottomNavigationBar: isGuest || kIsWeb
@@ -99,7 +97,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ],
               onTap: onPageChanged,
-              currentIndex: _page,
+              currentIndex: ref.watch(pageProvider),
             ),
     );
   }

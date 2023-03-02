@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_tutorial/features/home/screens/home_screen.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -18,6 +19,7 @@ class AddPostScreen extends ConsumerWidget {
     final currentTheme = ref.watch(themeNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(title: Text('New Post')),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,

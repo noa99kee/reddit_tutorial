@@ -6,6 +6,7 @@ import 'package:reddit_tutorial/core/enums/enums.dart';
 import 'package:reddit_tutorial/core/providers/storage_repository_provider.dart';
 import 'package:reddit_tutorial/core/utils.dart';
 import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
+import 'package:reddit_tutorial/features/home/screens/home_screen.dart';
 import 'package:reddit_tutorial/features/post/repository/post_repository.dart';
 import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
 import 'package:reddit_tutorial/models/comment_model.dart';
@@ -90,9 +91,11 @@ class PostController extends StateNotifier<bool> {
         .read(userProfileControllerProvider.notifier)
         .updateUserKarma(UserKarma.textPost);
     state = false;
-    res.fold((l) => showSnackBar(context, l.message), (r) {
+    res.fold((l) => showSnackBar(context, l.message), (r) async {
       showSnackBar(context, 'Posted successfully!');
-      Routemaster.of(context).pop();
+      //Routemaster.of(context).pop();
+      Routemaster.of(context).popUntil((routeData) => false);
+      _ref.read(pageProvider.notifier).state = 0;
     });
   }
 
@@ -129,7 +132,9 @@ class PostController extends StateNotifier<bool> {
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Posted successfully!');
-      Routemaster.of(context).pop();
+      //Routemaster.of(context).pop();
+      Routemaster.of(context).popUntil((routeData) => false);
+      _ref.read(pageProvider.notifier).state = 0;
     });
   }
 
@@ -174,7 +179,9 @@ class PostController extends StateNotifier<bool> {
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
         showSnackBar(context, 'Posted successfully!');
-        Routemaster.of(context).pop();
+        //Routemaster.of(context).pop();
+        Routemaster.of(context).popUntil((routeData) => false);
+        _ref.read(pageProvider.notifier).state = 0;
       });
     });
   }

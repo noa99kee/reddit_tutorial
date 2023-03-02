@@ -8,10 +8,12 @@ import 'package:reddit_tutorial/core/common/error_text.dart';
 import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/core/utils.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
+import 'package:reddit_tutorial/features/home/screens/home_screen.dart';
 import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/responsive/responsive.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AddPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
@@ -100,6 +102,15 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Post ${widget.type}'),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onTap: () {
+            Routemaster.of(context).popUntil((routeData) => false);
+          },
+        ),
         actions: [
           TextButton(
             onPressed: sharePost,
