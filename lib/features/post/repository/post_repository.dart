@@ -17,11 +17,15 @@ final postRepositoryProvider = Provider((ref) {
 
 class PostRepository {
   final FirebaseFirestore _firestore;
-  PostRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  PostRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
 
-  CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
-  CollectionReference get _comments => _firestore.collection(FirebaseConstants.commentsCollection);
-  CollectionReference get _users => _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _posts =>
+      _firestore.collection(FirebaseConstants.postsCollection);
+  CollectionReference get _comments =>
+      _firestore.collection(FirebaseConstants.commentsCollection);
+  CollectionReference get _users =>
+      _firestore.collection(FirebaseConstants.usersCollection);
 
   FutureVoid addPost(Post post) async {
     try {
@@ -35,7 +39,8 @@ class PostRepository {
 
   Stream<List<Post>> fetchUserPosts(List<Community> communities) {
     return _posts
-        .where('communityName', whereIn: communities.map((e) => e.name).toList())
+        .where('communityName',
+            whereIn: communities.map((e) => e.name).toList())
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
@@ -50,7 +55,12 @@ class PostRepository {
   }
 
   Stream<List<Post>> fetchGuestPosts() {
-    return _posts.orderBy('createdAt', descending: true).limit(10).snapshots().map(
+    print('## PostRepository fetchGuestPosts');
+    return _posts
+        .orderBy('createdAt', descending: true)
+        .limit(10)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Post.fromMap(
@@ -108,7 +118,10 @@ class PostRepository {
   }
 
   Stream<Post> getPostById(String postId) {
-    return _posts.doc(postId).snapshots().map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
+    return _posts
+        .doc(postId)
+        .snapshots()
+        .map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
   }
 
   FutureVoid addComment(Comment comment) async {
@@ -126,7 +139,11 @@ class PostRepository {
   }
 
   Stream<List<Comment>> getCommentsOfPost(String postId) {
-    return _comments.where('postId', isEqualTo: postId).orderBy('createdAt', descending: true).snapshots().map(
+    return _comments
+        .where('postId', isEqualTo: postId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Comment.fromMap(

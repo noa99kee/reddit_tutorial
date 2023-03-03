@@ -23,7 +23,7 @@ class CommunityListDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
     final isGuest = !user.isAuthenticated;
-
+    print('## CommunityListDrawer');
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -38,7 +38,7 @@ class CommunityListDrawer extends ConsumerWidget {
             if (!isGuest)
               ref.watch(userCommunitiesProvider).when(
                     data: (communities) {
-                      print('CommunityListDrawer draw list user communities');
+                      print('draw list user communities');
                       return Expanded(
                         child: ListView.builder(
                           itemCount: communities.length,

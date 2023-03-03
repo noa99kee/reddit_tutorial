@@ -99,6 +99,8 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     final currentTheme = ref.watch(themeNotifierProvider);
     final isLoading = ref.watch(postControllerProvider);
 
+    print('## AddPostTypeScreen');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Post ${widget.type}'),

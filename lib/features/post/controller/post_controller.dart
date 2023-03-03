@@ -194,6 +194,7 @@ class PostController extends StateNotifier<bool> {
   }
 
   Stream<List<Post>> fetchGuestPosts() {
+    print('## PostController fetchGuestPosts');
     return _postRepository.fetchGuestPosts();
   }
 

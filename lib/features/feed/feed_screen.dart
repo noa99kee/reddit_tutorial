@@ -12,7 +12,7 @@ class FeedScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('FeedScreen');
+    print('## FeedScreen');
     final user = ref.watch(userProvider)!;
     final isGuest = !user.isAuthenticated;
 

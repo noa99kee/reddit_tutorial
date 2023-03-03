@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    print('HomeScreen');
+    print('## HomeScreen');
     super.initState();
   }
 
@@ -63,12 +63,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             },
             icon: const Icon(Icons.search),
           ),
-          IconButton(
-            onPressed: () {
-              ref.read(pageProvider.notifier).state = 1;
-            },
-            icon: const Icon(Icons.add),
-          ),
+          if (!isGuest)
+            IconButton(
+              onPressed: () {
+                ref.read(pageProvider.notifier).state = 1;
+              },
+              icon: const Icon(Icons.add),
+            ),
           Builder(builder: (context) {
             return IconButton(
               icon: CircleAvatar(

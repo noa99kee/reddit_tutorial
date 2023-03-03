@@ -14,7 +14,7 @@ import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/models/post_model.dart';
 import 'package:routemaster/routemaster.dart';
 
-final userCommunitiesProvider = StreamProvider((ref) {
+final userCommunitiesProvider = StreamProvider.autoDispose((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities();
 });
@@ -98,7 +98,7 @@ class CommunityController extends StateNotifier<bool> {
 
   Stream<List<Community>> getUserCommunities() {
     final uid = _ref.read(userProvider)!.uid;
-    print('CommunityController getUserCommunities uid:$uid');
+    print('## CommunityController getUserCommunities uid:$uid');
     return _communityRepository.getUserCommunities(uid);
   }
 
