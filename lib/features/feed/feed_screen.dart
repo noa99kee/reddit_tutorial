@@ -12,6 +12,7 @@ class FeedScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('FeedScreen');
     final user = ref.watch(userProvider)!;
     final isGuest = !user.isAuthenticated;
 
@@ -19,11 +20,11 @@ class FeedScreen extends ConsumerWidget {
       return ref.watch(userCommunitiesProvider).when(
             data: (communities) =>
                 ref.watch(userPostsProvider(communities)).when(
-                      data: (data) {
+                      data: (posts) {
                         return ListView.builder(
-                          itemCount: data.length,
+                          itemCount: posts.length,
                           itemBuilder: (BuildContext context, int index) {
-                            final post = data[index];
+                            final post = posts[index];
                             return PostCard(post: post);
                           },
                         );

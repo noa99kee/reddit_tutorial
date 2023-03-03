@@ -35,7 +35,10 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  Stream<User?> get authStateChange => _auth.authStateChanges();
+  Stream<User?> get authStateChange {
+    print('get authStateChange');
+    return _auth.authStateChanges();
+  }
 
   FutureEither<UserModel> signInWithGoogle(bool isFromLogin) async {
     try {

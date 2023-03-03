@@ -20,6 +20,12 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
   Set<String> uids = {};
   int ctr = 0;
 
+  @override
+  void initState() {
+    print('AddModsScreen');
+    super.initState();
+  }
+
   void addUid(String uid) {
     setState(() {
       uids.add(uid);

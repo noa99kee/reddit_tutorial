@@ -37,23 +37,26 @@ class CommunityListDrawer extends ConsumerWidget {
                   ),
             if (!isGuest)
               ref.watch(userCommunitiesProvider).when(
-                    data: (communities) => Expanded(
-                      child: ListView.builder(
-                        itemCount: communities.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final community = communities[index];
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(community.avatar),
-                            ),
-                            title: Text('r/${community.name}'),
-                            onTap: () {
-                              navigateToCommunity(context, community);
-                            },
-                          );
-                        },
-                      ),
-                    ),
+                    data: (communities) {
+                      print('CommunityListDrawer draw list user communities');
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: communities.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final community = communities[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(community.avatar),
+                              ),
+                              title: Text('r/${community.name}'),
+                              onTap: () {
+                                navigateToCommunity(context, community);
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    },
                     error: (error, stackTrace) => ErrorText(
                       error: error.toString(),
                     ),

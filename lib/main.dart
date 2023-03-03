@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +11,28 @@ import 'package:reddit_tutorial/router.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
 import 'package:routemaster/routemaster.dart';
 
+class Logger extends ProviderObserver {
+  @override
+  void didUpdateProvider(
+    ProviderBase<Object?> provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    print('--------------------------------------------------');
+    print('"provider": "${provider.name ?? provider.runtimeType}"');
+    print('"value": "$newValue"');
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    const ProviderScope(
+    ProviderScope(
+      observers: [Logger()],
       child: MyApp(),
     ),
   );
@@ -35,12 +48,12 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   UserModel? userModel;
 
-  void getData(WidgetRef ref, User data) async {
+  void getData(WidgetRef ref, User user) async {
+    print('getData');
     userModel = await ref
         .watch(authControllerProvider.notifier)
-        .getUserData(data.uid)
+        .getUserData(user.uid)
         .first;
-
     ref.read(userProvider.notifier).update((state) => userModel);
     setState(() {});
   }
@@ -48,18 +61,21 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-          data: (data) => MaterialApp.router(
+          data: (user) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'Reddit Tutorial',
             theme: ref.watch(themeNotifierProvider),
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
-                if (data != null) {
-                  getData(ref, data);
-                  if (userModel != null) {
+                if (user != null) {
+                  if (userModel == null) {
+                    getData(ref, user);
+                  } else {
+                    print('loggedInRoute');
                     return loggedInRoute;
                   }
                 }
+                print('loggedOutRoute');
                 return loggedOutRoute;
               },
             ),
